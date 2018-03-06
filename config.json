@@ -1,0 +1,20 @@
+{
+    "bd": {
+        "b": 1,
+        "d":"test"
+    },
+    "cf": {
+        "c": 2,
+        "f":"test"
+    },
+    "server_address": "localhost:7473",
+    "log_max_size": 5,
+    "log_max_age": 5,
+    "log_max_backups": 5,
+    "db_user": "nomane",
+    "db_password": "seecrets",
+    "db_name": "sdpb",
+    "db_host": "db-host",
+    "db_port": "5432",
+    "auth_url": "http://holdplacer.nya"
+}

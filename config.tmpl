@@ -1,0 +1,43 @@
+package config
+
+import (
+	"encoding/json"
+	"fmt"
+	"io/ioutil"
+)
+
+type Config struct {
+{{- if .SimpleFields -}}
+{{- range .SimpleFields }}
+	{{ .Name | goName}} {{.Type}} `json:"{{.Name -}}"`
+{{- end -}}
+{{end}}
+
+	{{- if .StructFields -}}
+		{{- range .StructFields }}
+	{{.Name | goName}} {{.Name | goName}}Struct `json:"{{.Name -}}"`
+		{{- end -}}
+	{{- end }}
+}
+{{ if .StructFields -}}
+	{{- range .StructFields }}
+type {{ .Name | goName}}Struct struct {
+		{{- range .SimpleFields }}
+	{{ .Name | goName}} {{.Type}} `json:"{{.Name -}}"`
+		{{- end}}
+}
+	{{- end}}
+{{- end }}
+
+var C Config
+
+func Init() error {
+	data, err := ioutil.ReadFile("{{.ConfPath}}")
+	if err != nil {
+		return fmt.Errorf("InitConfig -> couldn't read config file {{.ConfPath}} -> %s", err)
+	}
+	if err = json.Unmarshal(data, &C); err != nil {
+		return fmt.Errorf("InitConfig -> couldn't unmarshal json -> %s", err)
+	}
+	return nil
+}
